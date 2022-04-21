@@ -10,10 +10,12 @@ if [ $ispresent -eq $PRESENT ]
 then
   
   echo "employee is present ";
+  dailywage=$((WORKING_HOUR * EMP_WAGE_PER_HOUR));
 else
   dailywage=0;
   echo "employee is absent ";
 fi
 
+echo "employee daily wage:" $dailywage "USD";
 
 

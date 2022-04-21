@@ -7,50 +7,51 @@ WORKING_HOUR=8;
 MAX_WORKING_DAY=20;
 MAX_WORKING_HOUR=40;
 
-totalworkinghour=0;
+totalWorkingHour=0;
+
 day=0;
 
-while [[ $day -lt $MAX_WORKING_DAY && $totalworkinghour -lt $MAX_WORKING_HOUR ]]
-do
+function getWorkingHour() {
 
-   if [ $totalworkinghour -eq $((MAX_WORKING_HOUR - WORKING_HOUR/2)) ]
-   then
-      ispresent=$PART_TIME;
-   else
-
-      ispresent=$((RANDOM%3));
-   fi
-
-   case $ispresent in
+   case $1 in
 
       $PRESENT)
-
-         empHr=$WORKING_HOUR;
-
+         workingHour=$WORKING_HOUR;
       ;;
 
       $PART_TIME)
-
-         empHr=$((WORKING_HOUR/2));
-
+         workingHour=$((WORKING_HOUR/2));
       ;;
 
       *)
-
-         empHr=0;
-
+         workingHour=0;
       ;;
+
    esac;
-   totalworkinghour=$((totalworkinghour + empHr));
+
+   echo $workingHour;
+}
+
+while [[ $day -lt $MAX_WORKING_DAY && $totalWorkingHour -lt $MAX_WORKING_HOUR ]]
+do
+
+   if [ $totalWorkingHour -eq $((MAX_WORKING_HOUR - WORKING_HOUR/2)) ]
+   then
+      isPresent=$PART_TIME;
+   else
+      isPresent=$((RANDOM%3));
+   fi
+
+   empHr=$(getWorkingHour $isPresent);
+
+   totalWorkingHour=$((totalWorkingHour + empHr));
    ((day++));
-done;
+done
 
-totalsalary=$((totalworkinghour * EMP_WAGE_PER_HOUR));
+totalSalary=$((totalWorkingHour * EMP_WAGE_PER_HOUR));
 
-echo "employee total working hour:" $totalworkinghour;
-echo "employee monthly wage: $"$totalsalary "USD";
-echo "employee total working days:" $day;
-
-
+echo "Emp total working hour : $totalWorkingHour Hour";
+echo "Employee monthly wage : $"$totalSalary "USD";
+echo "Employee total working day : "$day;
 
 

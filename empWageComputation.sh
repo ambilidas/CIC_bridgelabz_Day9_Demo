@@ -1,5 +1,7 @@
 #!/bin/bash
 
+declare -A dailyWage;
+
 EMP_WAGE_PER_HOUR=20;
 PRESENT=1;
 PART_TIME=2;
@@ -44,7 +46,7 @@ do
 
    empHr=$(getWorkingHour $isPresent);
 
-   dailyWage[$day]=$(( empHr * EMP_WAGE_PER_HOUR ));
+   dailyWage["Day"$day]=$(( empHr * EMP_WAGE_PER_HOUR ));
 
 
    totalWorkingHour=$((totalWorkingHour + empHr));
@@ -57,19 +59,17 @@ echo "Emp total working hour : $totalWorkingHour Hour";
 echo "Employee monthly wage : $"$totalSalary "USD";
 echo "Employee total working day : "$day;
 
-echo "Daily wages: " ${dailyWage[@]};
-echo "------------------------------------------";
+echo "---------------------------------------------";
 
-
-for wage in ${dailyWage[@]}
+for((i=0;i<=${#dailyWage[@]};i++))
 do
-   echo "Daily wages : " $wage;
+   echo "Day$i: $" ${dailyWage["Day$i"]} "USD";
 done
 
-echo "-------------------------------------------";
+echo "------------------------------------------------";
 
-for ((i=0;i<${#dailyWage[@]};i++))
+for key in ${!dailyWage[@]}
 do
-   echo "Day$i earning : $" ${dailyWage[i]} "USD";
+   echo $key ":" ${dailyWage[$key]};
 done
 
